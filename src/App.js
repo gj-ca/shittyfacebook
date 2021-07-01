@@ -1,6 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom'
 import NewUserPage from './pages/NewUserPage';
+import NewPostPage from './pages/NewPostPage';
 
 function App() {
   const [newUser, setNewUser] = useState(null)
@@ -33,8 +34,9 @@ function App() {
           ...{handleAddToFriends, handleClick, friends, newUser}
           }/>} 
         />
-        <Route exact path="/friends/email" render={() => <h1>friends posts</h1>} />
+        <Route exact path="/friends/:name" render={() => <h1>friends posts</h1>} />
         <Route exact path="/posts" render={() => <h1>All Posts</h1>} />
+        <Route exact path="/posts/new" render={() => <NewPostPage />} />
     </>
   );
 }

@@ -24,7 +24,7 @@ function NewUserPage({handleClick, handleAddToFriends, friends, newUser}) {
                 <Person
                 key={friend.email}
                 friend={friend} />
-                <Link to="/friends/email">See {friend.name.first}'s Posts</Link>
+                <Link to={`/friends/${friend.name.first}`}>See {friend.name.first}'s Posts</Link>
             </>
             ))}
         </div>
