@@ -1,6 +1,7 @@
 import Person from "../components/Person"
+import {Link} from 'react-router-dom'
 
-function NewUserPage({handleClick, handleAddToFriends, friends}) {
+function NewUserPage({handleClick, handleAddToFriends, friends, newUser}) {
     return (
     <>
         <div>

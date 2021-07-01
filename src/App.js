@@ -29,13 +29,14 @@ function App() {
   return (
     <>
 
-        <Route exact path="/" render={() => <NewUserPage />} />
+        <Route exact path="/" render={() => <NewUserPage {
+          ...{handleAddToFriends, handleClick, friends, newUser}
+          }/>} 
+        />
         <Route exact path="/friends/email" render={() => <h1>friends posts</h1>} />
         <Route exact path="/posts" render={() => <h1>All Posts</h1>} />
     </>
   );
 }
-
-
 
 export default App;
