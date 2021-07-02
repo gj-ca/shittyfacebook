@@ -1,4 +1,11 @@
 {
+  "users": [{
+    "username": "gj-ca",
+    "password": "password"
+  }, {
+    "username": "foo",
+    "password": "bar"
+  }],
   "friends": [
     {
       "name": {

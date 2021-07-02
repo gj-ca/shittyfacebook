@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import {useParams} from "react-router-dom"
 import Post from '../components/Post'
+import Person from '../components/Person'
 
 export default function FriendsPostsPage() {
     const {name} = useParams()
@@ -30,14 +31,8 @@ export default function FriendsPostsPage() {
             {friend ? (
                 <>
                 <h1>{friend.name.first}'s Information</h1>
-                    <dl>
-                    <dt>Email: </dt>
-                    <dd>{friend.email}</dd>
-                    <dt>Gender: </dt>
-                    <dd>{friend.gender}</dd>
-                    <dt>Picture: </dt>
-                    <dd><img src={friend.picture.large} /></dd>
-                    </dl>
+                <Person friend={friend} 
+                />
                 <h1>{friend.name.first}'s Posts</h1>
             </>
             ) : null }
