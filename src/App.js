@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch, Link} from 'react-router-dom'
 import NewUserPage from './pages/NewUserPage';
 import NewPostPage from './pages/NewPostPage';
 import PostsIndexPage from './pages/PostsIndexPage'
+import FriendsPostsPage from './pages/FriendsPostsPage'
 
 function App() {
   // State Declarations
@@ -56,11 +57,12 @@ function App() {
           ...{handleAddToFriends, handleClick, friends, newUser}
           }/>} 
         />
-        <Route exact path="/friends/:name" render={() => <h1>friends posts</h1>} />
+        <Route exact path="/friends/:name" render={() => <FriendsPostsPage />} />
         <Route exact path="/posts" render={() => <PostsIndexPage posts={posts}/>} />
         <Route exact path="/posts/new" render={() => <NewPostPage {
           ...{addToPosts, friends}
           }/>} 
+            
         />
     </>
   );

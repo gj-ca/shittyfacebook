@@ -1,14 +1,13 @@
-export default function PostsIndexPage(props) {
+import Post from '../components/Post'
+
+export default function PostsIndexPage({posts}) {
     return (
         <>
             <h1>All Posts</h1>
-            {props.posts.map(post => (
-                <>
-                    <h4>{post.title}</h4>
-                    <span>By {post.owner}</span>
-                    <p>{post.description}</p>
-                </>
-            ))}
+            {posts.map(({title, owner, description}) => 
+            <Post {
+                ...{title, owner, description}
+            }/>)}
         </>
     )
 }

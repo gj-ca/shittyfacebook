@@ -1,41 +1,42 @@
 import { useEffect, useState } from "react"
 
 export default function NewPostPage({addToPosts, friends}) {
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [owner, setOwner] = useState("")
+    const [form, setForm] = useState({
+        title: "",
+        description: "",
+        owner: ""
+    })
+
     // Two way binding
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         const newPost = {
-            title: title,
-            description: description,
-            owner: owner
+            title: form.title,
+            description: form.description,
+            owner: form.owner
         }
-        fetch(process.env.REACT_APP_BACKEND_URL + "/posts", {
+        const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/posts", {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
             },
             body: JSON.stringify(newPost)
         })
-            .then(res => {
-                if (res.status == 201) {
-                    addToPosts(newPost, () => {
-                        setTitle("")
-                        setDescription("")
-                        setOwner("")
-                    })
-                }
+        if (res.status == 201) {
+            addToPosts(newPost)
+            setForm({
+                title: "",
+                description: "",
+                owner: ""
             })
-            .catch(err => console.log("something went wrong"))
+        } else {
+            console.log("something went wrong")
+        }
     }
 
     useEffect(() => {
-        console.log("Friends has changed")
-        // friends.length > 0 && setOwner(friends[0].name.first)
         if (friends.length > 0) {
-            setOwner(friends[0].name.first)
+            setForm({...form, owner: friends[0].name.first})
         }
     }, [friends])
     return (
@@ -44,15 +45,21 @@ export default function NewPostPage({addToPosts, friends}) {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Title</label>
-                    <input value={title} onChange={event => setTitle(event.target.value)}/>
+                    <input 
+                        value={form.title} 
+                        onChange={event => setForm({...form, title: event.target.value})}/>
                 </div>
                 <div>
                     <label>Description</label>
-                    <textarea value={description} onChange={event => setDescription(event.target.value)} />
+                    <textarea 
+                        value={form.description} 
+                        onChange={event => setForm({...form, description:event.target.value })} />
                 </div>
                 <div>
                     <label>Belongs To:</label>
-                    <select value={owner} onChange={event => setOwner(event.target.value)}>
+                    <select 
+                        value={form.owner} 
+                        onChange={event => setForm({...form, owner: event.target.value})}>
                         {friends.map(friend => (
                             <option 
                                 key={friend.name.first}
