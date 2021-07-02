@@ -12,11 +12,23 @@ export default function NewPostPage({addToPosts, friends}) {
             description: description,
             owner: owner
         }
-        addToPosts(newPost, () => {
-            setTitle("")
-            setDescription("")
-            setOwner("")
+        fetch(process.env.REACT_APP_BACKEND_URL + "/posts", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(newPost)
         })
+            .then(res => {
+                if (res.status == 201) {
+                    addToPosts(newPost, () => {
+                        setTitle("")
+                        setDescription("")
+                        setOwner("")
+                    })
+                }
+            })
+            .catch(err => console.log("something went wrong"))
     }
 
     useEffect(() => {

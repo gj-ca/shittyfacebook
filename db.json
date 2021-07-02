@@ -1,0 +1,103 @@
+{
+  "friends": [
+    {
+      "name": {
+        "first": "Glen",
+        "last": "Johnson"
+      },
+      "email": "foo@bar.com",
+      "picture": {
+        "large": ""
+      },
+      "gender": "male"
+    },
+    {
+      "name": {
+        "first": "Brayden",
+        "last": "O'Gorman"
+      },
+      "email": "b@g.com",
+      "picture": {
+        "large": ""
+      },
+      "gender": "male"
+    },
+    {
+      "name": {
+        "first": "Chris",
+        "last": "Baker"
+      },
+      "email": "c@b.com",
+      "picture": {
+        "large": ""
+      },
+      "gender": "male"
+    },
+    {
+      "name": {
+        "first": "Kate",
+        "last": "Brandley"
+      },
+      "email": "potato@potato.com",
+      "picture": {
+        "large": ""
+      },
+      "gender": "female"
+    },
+    {
+      "name": {
+        "first": "Noe",
+        "last": "Hsu"
+      },
+      "email": "noe@hsu.com",
+      "picture": {
+        "large": ""
+      },
+      "gender": "male"
+    }
+  ],
+  "posts": [
+    {
+      "id": "1",
+      "title": "first post",
+      "description": "first desc",
+      "owner": "Glen"
+    },
+    {
+      "title": "sec",
+      "description": "sec",
+      "owner": "Chris",
+      "id": "QEkZPxh"
+    },
+    {
+      "title": "third",
+      "description": "third",
+      "owner": "Kate",
+      "id": "wnyDD40"
+    },
+    {
+      "title": "dfg",
+      "description": "dfg",
+      "owner": "Glen",
+      "id": "VQAQnDX"
+    },
+    {
+      "title": "last",
+      "description": "kasd",
+      "owner": "Brayden",
+      "id": "TT8y50B"
+    },
+    {
+      "title": "ffgdgf",
+      "description": "dfghgdfh",
+      "owner": "Glen",
+      "id": "WX04Np-"
+    },
+    {
+      "title": "sdf",
+      "description": "dfg",
+      "owner": "Glen",
+      "id": "UCCnmyZ"
+    }
+  ]
+}
