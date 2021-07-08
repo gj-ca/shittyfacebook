@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState, useReducer, useContext} from 'react';
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom'
 import NewUserPage from './pages/NewUserPage';
 import NewPostPage from './pages/NewPostPage';
@@ -6,13 +6,13 @@ import PostsIndexPage from './pages/PostsIndexPage'
 import FriendsPostsPage from './pages/FriendsPostsPage'
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
+import Context, {reducer, initialValue} from "./context"
 
 function App() {
   // State Declarations
-  const [newUser, setNewUser] = useState(null)
   const [friends, setFriends] = useState([])
   const [posts, setPosts] = useState([])
-  const [authenticated, setAuthenticated] = useState(false)
+  const [context, dispatch] = useReducer(reducer, initialValue)
 
   // Component Mounting
   useEffect(() => {
@@ -30,16 +30,21 @@ function App() {
       .then(res => res.json())
       .then(json => {
           const {gender, name, email, picture} = json.results[0]
-          setNewUser({
-          gender,
-          name,
-          email,
-          picture
-        })
+          console.log("foo")
+          dispatch({
+            type: "setUser",
+            value: {
+              gender,
+              name,
+              email,
+              picture
+            }
+          })
       })
   }
  
   const handleAddToFriends = () => {
+    const {newUser} = context
     if (!friends.includes(newUser)) {
       setFriends([...friends, newUser])
     }
@@ -51,40 +56,46 @@ function App() {
 
   return (
     <>
-      <nav style={{display: "flex", width: "100%", justifyContent: "space-between"}}>
-        <Link to="/posts/new">New Post</Link>
-        <Link to="/posts">All Posts</Link>
-        <Link to="/">Home</Link>
-        {authenticated ? (
-          <button onClick={() => setAuthenticated(false)}>Sign Out</button>
-          ) : (
-            <>
-              <Link to="/users/sign_up">Sign Up</Link>
-              <Link to="/users/sign_in">Sign In</Link>
-            </>
-          )}
-      </nav>
-      {/* User signed in ? false */}
-      <Route exact path="/users/sign_up" render={() => <SignUpPage setAuthenticated={setAuthenticated}/>} />
-      <Route exact path="/users/sign_in" render={() => <SignInPage setAuthenticated={setAuthenticated}/>} />
-      {/* User signed in ? true */}
-      <PrivateRoute exact path="/" authenticated={authenticated}>
-        <NewUserPage {...{handleAddToFriends, handleClick, friends, newUser}} />
-      </PrivateRoute>
-      <PrivateRoute exact path="/friends/:name" authenticated={authenticated}>
-        <FriendsPostsPage />
-      </PrivateRoute> 
-      <PrivateRoute exact path="/posts" authenticated={authenticated}>
-        <PostsIndexPage posts={posts}/>
-      </PrivateRoute> 
-      <PrivateRoute exact path="/posts/new" authenticated={authenticated}>
-        <NewPostPage {...{addToPosts, friends}}/>
-      </PrivateRoute>
+      <Context.Provider value={{...context, dispatch}}>
+        <nav style={{display: "flex", width: "100%", justifyContent: "space-between"}}>
+          <Link to="/posts/new">New Post</Link>
+          <Link to="/posts">All Posts</Link>
+          <Link to="/">Home</Link>
+          {context.authenticated ? (
+            <button onClick={() => dispatch({
+              type: "setAuthenticated",
+              value: false
+            })}>Sign Out</button>
+            ) : (
+              <>
+                <Link to="/users/sign_up">Sign Up</Link>
+                <Link to="/users/sign_in">Sign In</Link>
+              </>
+            )}
+        </nav>
+        {/* User signed in ? false */}
+        <Route exact path="/users/sign_up" render={() => <SignUpPage />} />
+        <Route exact path="/users/sign_in" render={() => <SignInPage />} />
+        {/* User signed in ? true */}
+        <PrivateRoute exact path="/" >
+          <NewUserPage {...{handleAddToFriends, handleClick, friends}} />
+        </PrivateRoute>
+        <PrivateRoute exact path="/friends/:name" >
+          <FriendsPostsPage />
+        </PrivateRoute> 
+        <PrivateRoute exact path="/posts" >
+          <PostsIndexPage posts={posts}/>
+        </PrivateRoute> 
+        <PrivateRoute exact path="/posts/new" >
+          <NewPostPage {...{addToPosts, friends}}/>
+        </PrivateRoute>
+      </Context.Provider>
     </>
   );
 }
 
-function PrivateRoute({authenticated, children, ...rest}) {
+function PrivateRoute({children, ...rest}) {
+  const {authenticated } = useContext(Context)
   return (
     <Route 
       {...rest}

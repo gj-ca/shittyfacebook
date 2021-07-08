@@ -1,7 +1,10 @@
 import Person from "../components/Person"
 import {Link} from 'react-router-dom'
+import { useContext } from "react"
+import Context from "../context"
 
-function NewUserPage({handleClick, handleAddToFriends, friends, newUser}) {
+function NewUserPage({handleClick, handleAddToFriends, friends}) {
+    const {newUser} = useContext(Context)
     return (
     <>
         <div>

@@ -1,12 +1,15 @@
-import {useState} from 'react'
+import {useContext, useState} from 'react'
 import { useHistory } from 'react-router'
+import Context from '../context'
 
-export default function SignInPage({setAuthenticated}) {
+export default function SignInPage() {
     // step 1 - declare state
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [flash, setFlash] = useState(false)
     const {push} = useHistory()
+    const {dispatch} = useContext(Context)
+
 
     const dataIsValid = () => {
         return true
@@ -14,7 +17,11 @@ export default function SignInPage({setAuthenticated}) {
     const handleSubmit = event => {
         event.preventDefault()
         if (dataIsValid()) {
-            setAuthenticated(true)
+            // setAuthenticated(true)
+            dispatch({
+                type: "setAuthenticated", 
+                value: true
+            })
             push("/")
         } else {
             setFlash("Incorrect Data")
